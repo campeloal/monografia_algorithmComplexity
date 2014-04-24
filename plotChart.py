@@ -21,9 +21,9 @@ class Plot:
         plt.plot(xFragAxis, yFragAxis, 'ro')
         plt.show()
 
-    def plotLeastSquareChart(self, xVertAxis, yVertAxis, xFragAxis, yFragAxis, yVertOrig, yFragOrig):
+    def plotLeastSquareChart(self, xVertAxis, yVertAxis, xFragAxis, yFragAxis, yVertOrig, yFragOrig, equationName):
         plt.subplot(211)
-        plt.title(self.chartTitle + ' Shader')
+        plt.title(self.chartTitle + ' Shader' + ' - ' + equationName)
         plt.xlabel('Number of Polygons')
         plt.ylabel(self.vertTitle)
         plt.plot(xVertAxis, yVertAxis, 'y-',xVertAxis, yVertOrig, 'b-')
