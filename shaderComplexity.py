@@ -55,6 +55,8 @@ if len(sys.argv) > 1:
     lsq.linearLeastSquares(False,False,nPolygons,vertMetrics)
     lsVert = lsq.createLinearEquation()
     plot.plotLeastSquareChart(nPolygons,lsVert,nPolygons,lsFrag,vertMetrics,fragMetrics, 'Least Squares: Linear')
+    linearVertError = lsq.calculateError(vertMetrics,lsVert)
+    linearFragError = lsq.calculateError(fragMetrics,lsFrag)
 
     #PLOT 3 - EXPONENTIAL
     lsq.linearLeastSquares(False,True,nPolygons,fragMetrics)
@@ -62,7 +64,9 @@ if len(sys.argv) > 1:
     lsq.linearLeastSquares(False,True,nPolygons,vertMetrics)
     lsVert = lsq.createExpEquation()
     plot.plotLeastSquareChart(nPolygons,lsVert,nPolygons,lsFrag,vertMetrics,fragMetrics, 'Least Squares: Exponential')
-
+    expVertError = lsq.calculateError(vertMetrics,lsVert)
+    expFragError = lsq.calculateError(fragMetrics,lsFrag)
+    
 
     #PLOT4 - SECOND DEGREE
     lsq.secondDegPolyLeastSquares(nPolygons,fragMetrics)
@@ -70,6 +74,8 @@ if len(sys.argv) > 1:
     lsq.secondDegPolyLeastSquares(nPolygons,vertMetrics)
     lsVert = lsq.createSecDegreeEquation()
     plot.plotLeastSquareChart(nPolygons,lsVert,nPolygons,lsFrag,vertMetrics,fragMetrics, 'Least Squares: Second Degree')
+    secdegVertError = lsq.calculateError(vertMetrics,lsVert)
+    secdegFragError = lsq.calculateError(fragMetrics, lsFrag)
 
     #PLOT4 - THIRD DEGREE
     lsq.thirdDegPolyLeastSquares(nPolygons,fragMetrics)
@@ -77,6 +83,19 @@ if len(sys.argv) > 1:
     lsq.thirdDegPolyLeastSquares(nPolygons,vertMetrics)
     lsVert = lsq.createThirdDegreeEquation()
     plot.plotLeastSquareChart(nPolygons,lsVert,nPolygons,lsFrag,vertMetrics,fragMetrics, 'Least Squares: Third Degree')
+    thirddegVertError = lsq.calculateError(vertMetrics,lsVert)
+    thirddegFragError = lsq.calculateError(fragMetrics,lsFrag)
+
+    #Calculate Smallest Error
+    vertErrors = {"Linear":linearVertError,"Exponential":expVertError,"Second Degree":secdegVertError,"Third Degree":thirddegVertError}
+    errorNameValue = lsq.smallestError(vertErrors)
+    for name, value in errorNameValue.iteritems():
+        print "SMALLEST VERTEX ERROR - ", name, ": ", value 
+
+    fragErrors = {"Linear":linearFragError,"Exponential":expFragError,"Second Degree":secdegFragError,"Third Degree":thirddegFragError}
+    errorNameValue = lsq.smallestError(fragErrors)
+    for name, value in errorNameValue.iteritems():
+        print "SMALLEST FRAGMENT ERROR - ", name, ": ", value 
     
 else:
     print 'You should enter the shader name'

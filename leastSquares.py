@@ -133,4 +133,21 @@ class LeastSquares:
             yVal.append(a0 + (a1*polygon) + (a2*polygon*polygon) + (a3*polygon*polygon*polygon))
         return yVal
 
+    def calculateError(self,yToCompare, yAproximation):
+        index = 0
+        error = 0
+        for value in yToCompare:
+            error = error + np.power((value - yAproximation[index]), 2)
+            index+=1
+        return np.sqrt(error)
 
+    def smallestError(self,errorHash):
+        errorName = ""
+        smallestError = 99999999999999999999
+        for eqName in errorHash:
+            if (errorHash[eqName] < smallestError):
+                smallestError = errorHash[eqName]
+                errorName = eqName
+        errorNameVal = { errorName : smallestError}
+        return errorNameVal
+    
