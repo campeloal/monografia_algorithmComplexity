@@ -18,22 +18,30 @@ class Plot:
         plt.xlabel('Number of Polygons')
         plt.ylabel(self.fragTitle)
         plt.plot(xFragAxis, yFragAxis, 'g-')
-        plt.plot(xFragAxis, yFragAxis, 'ro')
+        plt.plot(xFragAxis, yFragAxis, 'ro')       
         plt.show()
 
-    def plotLeastSquareChart(self, xVertAxis, yVertAxis, xFragAxis, yFragAxis, yVertOrig, yFragOrig, equationName):
+    def plotLeastSquareChart(self, xVertAxis, yVertAxis, xFragAxis, yFragAxis, yVertOrig, yFragOrig, equationName,eqVertFormula, eqFragFormula):
         plt.subplot(211)
         plt.title(self.chartTitle + ' Shader' + ' - ' + equationName)
         plt.xlabel('Number of Polygons')
         plt.ylabel(self.vertTitle)
-        plt.plot(xVertAxis, yVertAxis, 'y-',xVertAxis, yVertOrig, 'b-')
-        plt.plot(xVertAxis, yVertAxis, 'bo',xVertAxis, yVertOrig, 'ro')
+        plt.plot(xVertAxis, yVertAxis, 'y-',label=eqVertFormula)
+        plt.plot(xVertAxis, yVertAxis, 'bo') #add a blue dot
+        plt.plot(xVertAxis, yVertOrig, 'b-', label = "original")
+        plt.plot(xVertAxis, yVertOrig, 'ro') #add a red dot
+        plt.legend(loc="upper left", bbox_to_anchor=[0.6, 0.5],
+           ncol=1, shadow=True, title="Legend")
 
         plt.subplot(212)
         plt.xlabel('Number of Polygons')
         plt.ylabel(self.fragTitle)
-        plt.plot(xFragAxis, yFragAxis, 'r-',xFragAxis,yFragOrig,'g-' )
-        plt.plot(xFragAxis, yFragAxis, 'bo',xFragAxis,yFragOrig,'ro')
+        plt.plot(xFragAxis, yFragAxis, 'r-', label = eqFragFormula)
+        plt.plot(xFragAxis, yFragAxis, 'bo') #add a blue dot
+        plt.plot(xFragAxis,yFragOrig,'g-', label = "original")
+        plt.plot(xFragAxis,yFragOrig,'ro') #add a red dot
+        plt.legend(loc="upper left", bbox_to_anchor=[0.6, 0.5],
+           ncol=1, shadow=True, title="Legend")
         plt.show()
 
     def setVertTitle(self,vertTitle):

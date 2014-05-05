@@ -12,7 +12,14 @@ class LeastSquares:
     solution = []
     numberPolygons = []
     yValues = []
- 
+    linearVertEq = ""
+    secdegVertEq = ""
+    thirddegVertEq = ""
+    expVertEq = ""
+    linearFragEq = ""
+    secdegFragEq = ""
+    thirddegFragEq = ""
+    expFragEq = ""
     
     def createMMatrix(self, withLog):
         self.mMatrixStr = ''
@@ -87,7 +94,7 @@ class LeastSquares:
         self.mtyMatrix = self.mtMatrix * self.yMatrix
         self.solution = self.mtmInvMatrix * self.mtyMatrix
 
-    def createExpEquation(self):
+    def createExpEquation(self, eqType):
         c = np.exp(self.solution[0]) 
         c = np.array(c)[0][0] #convert back to number
         nK = self.solution[1]
@@ -95,9 +102,13 @@ class LeastSquares:
         yVal = []
         for polygon in self.numberPolygons:
             yVal.append(c * np.exp(nK*polygon))
+        if eqType == "Vertex":
+            self.expVertEq = "$y = " + str(c) + "e^{" + str(nK) + "t}$"
+        else:
+            self.expFragEq = "$y = " + str(c) + "e^{" + str(nK) + "t}$"
         return yVal
 
-    def createLinearEquation(self):
+    def createLinearEquation(self,eqType):
         a = self.solution[0]
         a = np.array(a)[0][0] #convert back to number
         b = self.solution[1]
@@ -105,9 +116,13 @@ class LeastSquares:
         yVal = []
         for polygon in self.numberPolygons:
             yVal.append(a + (b*polygon))
+        if eqType == "Vertex":
+            self.linearVertEq = "$y = " + str(a) + " + " + str(b) + "t$"
+        else:
+            self.linearFragEq = "$y = " + str(a) + " + " + str(b) + "t$"   
         return yVal
 
-    def createSecDegreeEquation(self):
+    def createSecDegreeEquation(self, eqType):
         a0 = self.solution[0]
         a0 = np.array(a0)[0][0] #convert back to number
         a1 = self.solution[1]
@@ -117,9 +132,13 @@ class LeastSquares:
         yVal = []
         for polygon in self.numberPolygons:
             yVal.append(a0 + (a1*polygon) + (a2*polygon*polygon))
+        if eqType == "Vertex":
+            self.secdegVertEq = "$y = " + str(a0) + " + " + str(a1) + "t " + str(a2) + "t^2$"
+        else:
+            self.secdegFragEq = "$y = " + str(a0) + " + " + str(a1) + "t " + str(a2) + "t^2$"
         return yVal
 
-    def createThirdDegreeEquation(self):
+    def createThirdDegreeEquation(self, eqType):
         a0 = self.solution[0]
         a0 = np.array(a0)[0][0] #convert back to number
         a1 = self.solution[1]
@@ -131,6 +150,10 @@ class LeastSquares:
         yVal = []
         for polygon in self.numberPolygons:
             yVal.append(a0 + (a1*polygon) + (a2*polygon*polygon) + (a3*polygon*polygon*polygon))
+        if eqType == "Vertex":
+            self.thirddegVertEq = "$y = " + str(a0) + " + " + str(a1) + "t " + str(a2) + "t^2 " + str(a3) + "t^3$" 
+        else:
+            self.thirddegFragEq = "$y = " + str(a0) + " + " + str(a1) + "t " + str(a2) + "t^2 " + str(a3) + "t^3$"
         return yVal
 
     def calculateError(self,yToCompare, yAproximation):
@@ -150,4 +173,23 @@ class LeastSquares:
                 errorName = eqName
         errorNameVal = { errorName : smallestError}
         return errorNameVal
-    
+
+    def getLinearEqFormula(self, eqType):
+        if eqType == "Vertex":
+            return self.linearVertEq
+        return self.linearFragEq
+
+    def getSecDegEqFormula(self, eqType):
+        if eqType == "Vertex":
+            return self.secdegVertEq
+        return self.secdegFragEq
+
+    def getThirdDegEqFormula(self, eqType):
+        if eqType == "Vertex":
+            return self.thirddegVertEq
+        return self.thirddegFragEq
+
+    def getExpEqFormula(self, eqType):
+        if eqType == "Vertex":
+            return self.expVertEq
+        return self.expFragEq
