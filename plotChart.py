@@ -21,6 +21,14 @@ class Plot:
         plt.plot(xFragAxis, yFragAxis, 'ro')       
         plt.show()
 
+    def plotChartRT(self, numberPolygons, renderTime):
+        plt.title(self.chartTitle + ' Shader')
+        plt.xlabel('Number of Polygons')
+        plt.ylabel(self.vertTitle)
+        plt.plot(numberPolygons, renderTime, 'b-')
+        plt.plot(numberPolygons, renderTime, 'ro')
+        plt.show()
+
     def plotLeastSquareChart(self, xVertAxis, yVertAxis, xFragAxis, yFragAxis, yVertOrig, yFragOrig, equationName,eqVertFormula, eqFragFormula):
         plt.subplot(211)
         plt.title(self.chartTitle + ' Shader' + ' - ' + equationName)
@@ -30,7 +38,7 @@ class Plot:
         plt.plot(xVertAxis, yVertAxis, 'bo') #add a blue dot
         plt.plot(xVertAxis, yVertOrig, 'b-', label = "original")
         plt.plot(xVertAxis, yVertOrig, 'ro') #add a red dot
-        plt.legend(loc="upper left", bbox_to_anchor=[0.6, 0.5],
+        plt.legend(loc="upper left", bbox_to_anchor=[0.5, 0.5],
            ncol=1, shadow=True, title="Legend")
 
         plt.subplot(212)
@@ -40,9 +48,25 @@ class Plot:
         plt.plot(xFragAxis, yFragAxis, 'bo') #add a blue dot
         plt.plot(xFragAxis,yFragOrig,'g-', label = "original")
         plt.plot(xFragAxis,yFragOrig,'ro') #add a red dot
-        plt.legend(loc="upper left", bbox_to_anchor=[0.6, 0.5],
+        plt.legend(loc="upper left", bbox_to_anchor=[0.5, 0.5],
            ncol=1, shadow=True, title="Legend")
         plt.show()
+
+    def plotLeastSquareChartRT(self, numberPolygons,lsRenderTime, renderTime,equationName,eqVertFormula):
+        plt.title(self.chartTitle + ' Shader' + ' - ' + equationName)
+        plt.xlabel('Number of Polygons')
+        plt.ylabel(self.vertTitle)
+        plt.plot(numberPolygons, lsRenderTime, 'y-',label=eqVertFormula)
+        plt.plot(numberPolygons, lsRenderTime, 'bo') #add a blue dot
+        plt.plot(numberPolygons, renderTime, 'b-', label = "original")
+        plt.plot(numberPolygons, renderTime, 'ro') #add a red dot
+        plt.legend(loc="upper left", bbox_to_anchor=[0.5, 0.5],
+           ncol=1, shadow=True, title="Legend")
+        
+        plt.show()
+
+
+    
 
     def setVertTitle(self,vertTitle):
         self.vertTitle = vertTitle
