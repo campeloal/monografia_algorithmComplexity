@@ -20,7 +20,7 @@ class Csv:
     def getColumns(self):
         del self.vertMetric[0:len(self.vertMetric)]
         del self.vertMetric[0:len(self.vertMetric)]
-      
+        
         for row in self.data:
             self.vertMetric.append(row[1])
             self.fragMetric.append(row[2])
