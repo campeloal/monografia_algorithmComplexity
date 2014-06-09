@@ -1,4 +1,8 @@
 import matplotlib.pyplot as plt
+#font = {'family' : 'normal',
+#        'weight' : 'bold',
+#        'size'   : 29}
+#plt.rc('font', **font)
 
 class Plot:
 
@@ -23,8 +27,8 @@ class Plot:
 
     def plotChartRT(self, numberPolygons, renderTime):
         plt.title(self.chartTitle + ' Shader')
-        plt.xlabel('Number of Polygons')
-        plt.ylabel(self.vertTitle)
+        plt.xlabel('Number of Polygons') #, fontsize = 32)
+        plt.ylabel(self.vertTitle) #, fontsize = 35)
         plt.plot(numberPolygons, renderTime, 'b-')
         plt.plot(numberPolygons, renderTime, 'ro')
         plt.show()
@@ -56,12 +60,12 @@ class Plot:
         plt.title(self.chartTitle + ' Shader' + ' - ' + equationName)
         plt.xlabel('Number of Polygons')
         plt.ylabel(self.vertTitle)
-        plt.plot(numberPolygons, lsRenderTime, 'y-',label=eqVertFormula)
+        plt.plot(numberPolygons, lsRenderTime, 'y-',label=eqVertFormula)#, linewidth=2)
         plt.plot(numberPolygons, lsRenderTime, 'bo') #add a blue dot
-        plt.plot(numberPolygons, renderTime, 'b-', label = "original")
+        plt.plot(numberPolygons, renderTime, 'b-', label = "original") #, linewidth=2)
         plt.plot(numberPolygons, renderTime, 'ro') #add a red dot
-        plt.legend(loc="upper left", bbox_to_anchor=[0.5, 0.5],
-           ncol=1, shadow=True, title="Legend")
+        plt.legend(loc="upper left", bbox_to_anchor=[0.4, 0.4],
+           ncol=1, shadow=True, title="Legend") #, prop={'size':30})
         
         plt.show()
 

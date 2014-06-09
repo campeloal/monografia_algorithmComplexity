@@ -1,6 +1,7 @@
 import numpy as np
 
 class LeastSquares:
+    np.set_printoptions(precision=14)
     mMatrixStr = ''
     yMatrixStr = ''
     mMatrix = []
@@ -24,29 +25,40 @@ class LeastSquares:
     def createMMatrix(self, withLog):
         self.mMatrixStr = ''
         for polygon in self.numberPolygons:
-            #multiply by 0.1 because the np.matrix can't handle big numbers
             if withLog:
-                self.mMatrixStr += str(1 * 0.1) + " " + str(np.log(polygon * 0.1)) + ";"
+                self.mMatrixStr += str(np.float64(1)) + " " + str(np.log(np.float64(polygon))) + ";"
             else:
-                self.mMatrixStr +=  str(1 * 0.1) + " " + str(polygon * 0.1) + ";"
+                self.mMatrixStr +=  str(np.float64(1)) + " " + str(np.float64(polygon)) + ";"
+
         self.mMatrixStr = self.mMatrixStr[:-1]
-        self.mMatrix = np.matrix(self.mMatrixStr)
+        self.mMatrix = np.matrix(self.mMatrixStr,dtype=np.float64)
 
     def createSecDegMMatrix(self):
         self.mMatrixStr = ''
         for polygon in self.numberPolygons:
-            #multiply by 0.1 because the np.matrix can't handle big numbers
-            self.mMatrixStr +=  str(1 * 0.1) + " " + str(polygon * 0.1) + " " + str(polygon * polygon * 0.1) + ";"
+            self.mMatrixStr +=  str(np.float64(1)) + " " + str(np.float64(polygon)) + " " + str(np.power(np.float64(polygon),2)) + ";"
         self.mMatrixStr = self.mMatrixStr[:-1]
-        self.mMatrix = np.matrix(self.mMatrixStr)
+        self.mMatrix = np.matrix(self.mMatrixStr,dtype=np.float64)
+
+    def createPolygonMatrixString(self, polygon, funcdegree):
+        matrixString = '' 
+        if(funcdegree == 'third'):
+            polArray = np.array([np.power(polygon,3,dtype=np.float64)])
+            matrixString = str(polArray)
+            matrixString = matrixString[1:]
+            matrixString = matrixString[:-1]
+
+        return matrixString
+        
 
     def createThirdDegMMatrix(self):
         self.mMatrixStr = ''
+        
         for polygon in self.numberPolygons:
-            #multiply by 0.1 because the np.matrix can't handle big numbers
-            self.mMatrixStr +=  str(1 * 0.1) + " " + str(polygon * 0.1) + " " + str(polygon * polygon * polygon * 0.1) + ";"
+            self.mMatrixStr +=  str(1) + " " + str(polygon) + " " + str(np.power(np.float64(polygon),2))+ " " + self.createPolygonMatrixString(polygon,'third') + ";"
+        
         self.mMatrixStr = self.mMatrixStr[:-1]
-        self.mMatrix = np.matrix(self.mMatrixStr)
+        self.mMatrix = np.matrix(self.mMatrixStr,dtype=np.float64)
         
     def createYMatrix(self, withLog):
         self.yMatrixStr = ''
@@ -64,9 +76,9 @@ class LeastSquares:
         self.createMMatrix(withLogM)
         self.createYMatrix(withLogY)
         self.mtMatrix = self.mMatrix.getT()
-        self.mtmMatrix = (self.mtMatrix * self.mMatrix) * 100 #multiply back
+        self.mtmMatrix = (self.mtMatrix * self.mMatrix)
         self.mtmInvMatrix = self.mtmMatrix.getI()
-        self.mtMatrix = self.mtMatrix * 10 #multiply back
+        self.mtMatrix = self.mtMatrix
         self.mtyMatrix = self.mtMatrix * self.yMatrix
         self.solution = self.mtmInvMatrix * self.mtyMatrix
 
@@ -76,9 +88,9 @@ class LeastSquares:
         self.createSecDegMMatrix()
         self.createYMatrix(False)
         self.mtMatrix = self.mMatrix.getT()
-        self.mtmMatrix = (self.mtMatrix * self.mMatrix) * 100 #multiply back
+        self.mtmMatrix = (self.mtMatrix * self.mMatrix) 
         self.mtmInvMatrix = self.mtmMatrix.getI()
-        self.mtMatrix = self.mtMatrix * 10 #multiply back
+        self.mtMatrix = self.mtMatrix 
         self.mtyMatrix = self.mtMatrix * self.yMatrix
         self.solution = self.mtmInvMatrix * self.mtyMatrix
 
@@ -88,9 +100,9 @@ class LeastSquares:
         self.createThirdDegMMatrix()
         self.createYMatrix(False)
         self.mtMatrix = self.mMatrix.getT()
-        self.mtmMatrix = (self.mtMatrix * self.mMatrix) * 100 #multiply back
+        self.mtmMatrix = (self.mtMatrix * self.mMatrix)
         self.mtmInvMatrix = self.mtmMatrix.getI()
-        self.mtMatrix = self.mtMatrix * 10 #multiply back
+        self.mtMatrix = self.mtMatrix
         self.mtyMatrix = self.mtMatrix * self.yMatrix
         self.solution = self.mtmInvMatrix * self.mtyMatrix
 
@@ -145,15 +157,22 @@ class LeastSquares:
         a1 = np.array(a1)[0][0] #convert back to number
         a2 = self.solution[2]
         a2 = np.array(a2)[0][0] #convert back to number
-        a3 = self.solution[2]
+        a3 = self.solution[3]
         a3 = np.array(a3)[0][0] #convert back to number
+        
         yVal = []
+
+        pol = 170000
+        print "Value ", a0 + a1*pol + a2*pol*pol + a3*pol*pol*pol
+    
+
         for polygon in self.numberPolygons:
             yVal.append(a0 + (a1*polygon) + (a2*polygon*polygon) + (a3*polygon*polygon*polygon))
         if eqType == "Vertex":
-            self.thirddegVertEq = "$y = " + str(a0) + " + " + str(a1) + "t " + str(a2) + "t^2 " + str(a3) + "t^3$" 
+            self.thirddegVertEq = "$y = " + str(a0) + " + " + str(a1) + "t +" + str(a2) + "t^2 + " + str(a3) + "t^3$" 
         else:
-            self.thirddegFragEq = "$y = " + str(a0) + " + " + str(a1) + "t " + str(a2) + "t^2 " + str(a3) + "t^3$"
+            self.thirddegFragEq = "$y = " + str(a0) + " + " + str(a1) + "t +" + str(a2) + "t^2 +" + str(a3) + "t^3$"
+
         return yVal
 
     def calculateError(self,yToCompare, yAproximation):

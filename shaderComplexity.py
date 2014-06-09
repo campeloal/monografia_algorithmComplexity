@@ -61,9 +61,9 @@ if len(sys.argv) > 1:
         renderTimeErrors = {"Linear":linearRenderTimeError,"Exponential":expRenderTimeError,"Second Degree":secdegRenderTimeError,"Third Degree":thirddegRenderTimeError}
         errorNameValue = lsq.smallestError(renderTimeErrors)
         for name, value in errorNameValue.iteritems():
-            print "SMALLEST RENDER TIME ERROR - ", name, ": ", value  
+            print "SMALLEST RENDER TIME ERROR - ", name, ": ", value
 
-    elif mode == "number_instructions":
+    elif mode == "vertex_fragment":
     
         csv1000 = Csv('csv/' + "/" + name + '/' + name + '_1000.csv',',')
         vertMetrics.append(csv1000.getVertMetric())
@@ -171,16 +171,18 @@ if len(sys.argv) > 1:
         thirddegVertError = lsq.calculateError(vertMetrics,lsVert)
         thirddegFragError = lsq.calculateError(fragMetrics,lsFrag)
 
+
         #Calculate Smallest Error
-        vertErrors = {"Linear":linearVertError,"Exponential":expVertError,"Second Degree":secdegVertError,"Third Degree":thirddegVertError}
-        errorNameValue = lsq.smallestError(vertErrors)
-        for name, value in errorNameValue.iteritems():
-            print "SMALLEST VERTEX ERROR - ", name, ": ", value 
+        #vertErrors = {"Linear":linearVertError,"Exponential":expVertError,"Second Degree":secdegVertError,"Third Degree":thirddegVertError}
+        #errorNameValue = lsq.smallestError(vertErrors)
+        #for name, value in errorNameValue.iteritems():
+        #    print "SMALLEST VERTEX ERROR - ", name, ": ", value 
 
         fragErrors = {"Linear":linearFragError,"Exponential":expFragError,"Second Degree":secdegFragError,"Third Degree":thirddegFragError}
         errorNameValue = lsq.smallestError(fragErrors)
         for name, value in errorNameValue.iteritems():
-            print "SMALLEST FRAGMENT ERROR - ", name, ": ", value 
+            print "SMALLEST FRAGMENT ERROR - ", name, ": ", value
+
     
 else:
     print 'You should enter the shader name'
