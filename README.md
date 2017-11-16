@@ -12,3 +12,7 @@ $ python  shaderComplexity.py gouraud render_time
 
 $ python  shaderComplexity.py gouraud vertex_fragment
 
+Requirements:
+
+You need to have the numpy package installed. You can get the package via command: python -m pip install --user numpy scipy matplotlib ipython jupyter pandas sympy nose
+
